@@ -26,8 +26,6 @@ jobs:
         with:
           repository: Couch-Coders/6th-music-fe
           path: ./frontend
-      - name: build frontend to resources
-        run: sh build.sh
       - name: deploy to heroku
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
