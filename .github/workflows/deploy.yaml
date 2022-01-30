@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Couch-Coders/6th-music-fe
-          path: ./frontend
+          path: ./
       - uses: action/setup-java@v2
         with:
           distribution: 'temurin'
