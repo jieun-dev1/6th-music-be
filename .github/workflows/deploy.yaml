@@ -25,7 +25,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: Couch-Coders/6th-music-fe
-          path: ./frontend
+          path: ./
       - name: deploy to heroku
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
