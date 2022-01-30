@@ -1,0 +1,35 @@
+#github actions
+name: deploy
+
+#On: yaml 실행 조건  - main 브랜치에 push 가 동작되면 실행된다 (pull_request merge 시 추가됨)
+on:
+  push:
+    branches: [main]
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      #실제 main branch에 push 하면 동작할 내용들
+      - name: checkout backend
+        uses: actions/checkout@v2
+      #frontend 폴더에 frontend 프로젝트 설치
+      - name: checkout frontend
+        uses: actions/checkout@v2
+        with:
+          repository: Couch-Coders/6th-music-fe
+          path: ./frontend
+      - uses: action/setup-java@v2
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+      - name: build frontend to resources
+        run: sh build.sh
+      - name: deploy to heroku
+        uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "git-actions-codingyo"
+          heroku_email: "jkdev1324@gmail.com"
+
