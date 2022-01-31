@@ -3,6 +3,7 @@ package com.coding.yo.entity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,13 +29,15 @@ public class Post {
     @Column(nullable = false, length = 50)
     private String creator;
 
-    @Column(name = "like_count", columnDefinition = "integer default 0")
+    @Column(name = "like_count")
+    @ColumnDefault("0")
     private Integer likeCount;
 
-    @Column(name = "report_count", columnDefinition = "integer default 0")
+    @Column(name = "report_count")
+    @ColumnDefault("0")
     private Integer reportCount;
 
-    @Column(columnDefinition = "boolean default false")
+    @ColumnDefault("false")
     private Boolean blocked;
 
     @Column(name = "video_id", nullable = false, length = 20)
