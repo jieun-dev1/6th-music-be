@@ -46,7 +46,7 @@ public class Post {
     @OneToMany(mappedBy = "post")
     private Set<Tag> tags;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
