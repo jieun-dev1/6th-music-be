@@ -22,8 +22,8 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private UserDetailsService userDetailsService;
-    private FirebaseAuth firebaseAuth;
+    private final UserDetailsService userDetailsService;
+    private final FirebaseAuth firebaseAuth;
 
 
     @Override
