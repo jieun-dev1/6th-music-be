@@ -7,21 +7,17 @@ import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "post")
-public class Post {
+@Table(name = "comment")
+public class Comment {
 
     @Id
-    @Column(name = "post_id")
+    @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false, length = 50)
-    private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
@@ -40,25 +36,20 @@ public class Post {
     @ColumnDefault("false")
     private Boolean blocked;
 
-    @Column(name = "video_id", nullable = false, length = 20)
-    private String videoId;
-
-    @Embedded
-    private TimeColumns timeColumns;
-
-    @OneToMany(mappedBy = "post")
-    private Set<Tag> tags;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<PostReport> postReports;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<PostLike> postLikes;
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<CommentLike> commentLikes;
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-    private List<Comment> comments;
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<CommentReport> commentReports;
+
+    @Embedded
+    private TimeColumns timeColumns;
 }
