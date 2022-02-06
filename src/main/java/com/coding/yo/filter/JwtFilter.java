@@ -1,9 +1,11 @@
 package com.coding.yo.filter;
 
+import com.coding.yo.util.RequestUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,30 +21,35 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
-    private final FirebaseAuth firebaseAuth;
-
+    private UserDetailsService userDetailsService;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         FirebaseToken decodedToken;
-        String header = request.getHeader("Authorization");
         //Invalid Header - Authorization이라는 key값의 value가 없거나 bearer 로 시작하지 않을 경우
-        if (header == null || !header.startsWith("Bearer ")) {
-            setUnauthorizedResponse(response, "INVALID HEADER");
-            return;
-        }
+//        if (header == null || !header.startsWith("Bearer ")) {
+//            setUnauthorizedResponse(response, "INVALID HEADER");
+//            return;
+//        }
         //token: bearer 이후의 값
-        String token = header.substring(7);
-
+//        String token = header.substring(7);
         //INVALID TOKEN -verifyIdToken을 통과하지 못했을 때
+
         try{
+            String token = RequestUtil.getAuthorizationToken(request.getHeader("Authorization"));
             decodedToken = firebaseAuth.verifyIdToken(token);
-        } catch (FirebaseAuthException e) {
-            setUnauthorizedResponse(response, "INVALID TOKEN");
+        } catch (FirebaseAuthException | IllegalArgumentException e) {
+//            setUnauthorizedResponse(response, "INVALID TOKEN");
+            //ErrorMessage 응답 전송
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            //write: writes a string
+            response.getWriter().write("{\"code\":\"INVALID TOKEN\", \"message\":\"" +e.getMessage()+"\"}");
             return;
         }
 
@@ -53,17 +60,17 @@ public class JwtFilter extends OncePerRequestFilter {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch(NoSuchElementException e) {
-            setUnauthorizedResponse(response, "USER_NOT_FOUND");
+
+            //ErrorMessage 응답 전송
+            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+            response.setContentType("application/json");
+            //write: writes a string
+            response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
             return;
         }
         filterChain.doFilter(request, response);
      }
 
-    private void setUnauthorizedResponse(HttpServletResponse response, String code) throws IOException {
-        response.setStatus(HttpStatus.SC_UNAUTHORIZED);
-        response.setContentType("application/json");
-        response.getWriter().write("{\"code\":\""+code+"\"}");
-    }
 
     //Get the token from the request
 
