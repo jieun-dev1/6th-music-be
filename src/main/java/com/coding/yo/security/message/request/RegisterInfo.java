@@ -1,4 +1,4 @@
-package com.coding.yo.message.request;
+package com.coding.yo.security.message.request;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

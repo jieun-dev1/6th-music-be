@@ -1,6 +1,6 @@
 package com.coding.yo.security.message.response;
 
-import com.coding.yo.security.UserDetailsImpl;
+import com.coding.yo.security.entity.UserDetailsImpl;
 import lombok.Getter;
 
 @Getter
