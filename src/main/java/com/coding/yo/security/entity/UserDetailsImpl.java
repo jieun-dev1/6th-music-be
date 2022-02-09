@@ -1,17 +1,36 @@
-package com.coding.yo.entity;
+package com.coding.yo.security.entity;
 
-import lombok.RequiredArgsConstructor;
+import com.coding.yo.entity.Member;
+import io.grpc.netty.shaded.io.netty.handler.codec.socks.SocksAuthRequest;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Collection;
 
-@RequiredArgsConstructor
+@Data
+@Entity
+@NoArgsConstructor
 public class UserDetailsImpl implements UserDetails {
-    //member 생성되면 member를 final로 주입
-    //Getter는 메소드로 생성
-    private final Member member;
-    public Member getMember() {return member;}
+    //member를 final로 주입할 수 있을까? (중복 제거) - 리팩토링 시 반영
+
+    @Id
+    private String username;
+    @Column
+    private String email;
+    @Column
+    private String nickname;
+    @Column
+    private String profileUrl;
+
+
+    @Builder
+    public UserDetailsImpl(String username, String email, String nickname, String profileUrl ) {
+    }
+
 
     //implement해야하는 필수 method
     @Override
@@ -27,7 +46,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getUsername();
+        return username;
     }
 
     @Override
