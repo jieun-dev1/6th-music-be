@@ -1,4 +1,4 @@
-package com.coding.yo.filter;
+package com.coding.yo.security.filter;
 
 import com.coding.yo.util.RequestUtil;
 import com.google.firebase.auth.FirebaseAuth;
@@ -7,7 +7,6 @@ import com.google.firebase.auth.FirebaseToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,8 +24,9 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private UserDetailsService userDetailsService;
-    private FirebaseAuth firebaseAuth;
+    private final UserDetailsService userDetailsService;
+    private final FirebaseAuth firebaseAuth;
+
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
