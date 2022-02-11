@@ -1,8 +1,10 @@
 spring:
   datasource:
-    url: ${{secrets.POSTGRES_DATABASE}}
-    username: ${{secrets.POSTGRES_USERNAME}}
-    password: ${{secrets.POSTGRES_PASSWORD}}
+    url: jdbc:postgresql://localhost:5432/codingyo
+#    username: ${{secrets.POSTGRES_USERNAME}}
+#    password: ${{secrets.POSTGRES_PASSWORD}}
+    username: postgres
+    password: postgres
     hikari:
       maximum-pool-size:4
   jpa:
@@ -14,3 +16,5 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
         use_sql_comments: true
+
+

@@ -31,17 +31,10 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         FirebaseToken decodedToken;
-        //Invalid Header - Authorization이라는 key값의 value가 없거나 bearer 로 시작하지 않을 경우
-//        if (header == null || !header.startsWith("Bearer ")) {
-//            setUnauthorizedResponse(response, "INVALID HEADER");
-//            return;
-//        }
-        //token: bearer 이후의 값
-//        String token = header.substring(7);
-        //INVALID TOKEN -verifyIdToken을 통과하지 못했을 때
-
-        try{
+        log.info("로그인 시작");
+        try {
             String token = RequestUtil.getAuthorizationToken(request.getHeader("Authorization"));
+            log.info("로그인 토큰" + token);
             decodedToken = firebaseAuth.verifyIdToken(token);
         } catch (FirebaseAuthException | IllegalArgumentException e) {
 //            setUnauthorizedResponse(response, "INVALID TOKEN");
@@ -49,17 +42,18 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             response.setContentType("application/json");
             //write: writes a string
-            response.getWriter().write("{\"code\":\"INVALID TOKEN\", \"message\":\"" +e.getMessage()+"\"}");
+            response.getWriter().write("{\"code\":\"INVALID TOKEN2\", \"message\":\"" + e.getMessage() + "\"}");
             return;
         }
 
         //USER를 가져와 SecurityContext에 저장
         //getContext.setAuthentication(authentication)에서 user 를 넣어주게 됨.
-        try{
+        try {
+            log.info("decoded: {} {} {}", decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getPicture());
             UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch(NoSuchElementException e) {
+        } catch (NoSuchElementException e) {
 
             //ErrorMessage 응답 전송
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
@@ -69,7 +63,7 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
         filterChain.doFilter(request, response);
-     }
+    }
 
 
     //Get the token from the request

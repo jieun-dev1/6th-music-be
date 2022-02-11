@@ -1,20 +1,22 @@
 package com.coding.yo.security.message.response;
 
-import com.coding.yo.security.entity.UserDetailsImpl;
+import com.coding.yo.entity.Member;
 import lombok.Getter;
 
 @Getter
 public class MemberInfo {
     private String uid;
     private String email;
-    private String nickname;
+//    private String nickname;
+    private String username;
     private String profileUrl;
 
-    public MemberInfo(UserDetailsImpl userDetailsImpl) {
-        this.uid = userDetailsImpl.getUsername();
-        this.email = userDetailsImpl.getEmail();
-        this.nickname = userDetailsImpl.getNickname();
-        this.profileUrl = userDetailsImpl.getProfileUrl();
+    public MemberInfo(Member member) {
+        this.uid = member.getUid();
+        this.email = member.getEmail();
+        this.username = member.getUsername();
+//        this.nickname = member.getNickname();
+        this.profileUrl = member.getProfileUrl();
 
     }
 }

@@ -4,9 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RequestUtil {
 
-    //header의 구조 다시 볼 것.
     public static String getAuthorizationToken(String header) {
-//        header.replace("Bearer ", "");
         //Authorization: Bearer <Access_token>
         if (header == null || !header.startsWith("Bearer ")) {
             throw new IllegalArgumentException("Invalid authorization header");
