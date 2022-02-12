@@ -7,7 +7,6 @@ import lombok.Getter;
 public class MemberInfo {
     private String uid;
     private String email;
-//    private String nickname;
     private String username;
     private String profileUrl;
 
@@ -15,7 +14,6 @@ public class MemberInfo {
         this.uid = member.getUid();
         this.email = member.getEmail();
         this.username = member.getUsername();
-//        this.nickname = member.getNickname();
         this.profileUrl = member.getProfileUrl();
 
     }

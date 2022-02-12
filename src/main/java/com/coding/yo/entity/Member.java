@@ -36,11 +36,6 @@ public class Member implements UserDetails {
     @Column(nullable = false, length = 10)
     private String username;
 
-    //Firebase OAuth의 필수값이어서 추가함
-//    @Column
-//    private String nickname;
-
-
     @Column(name = "profile_url", nullable = false)
     private String profileUrl;
 
@@ -72,8 +67,6 @@ public class Member implements UserDetails {
         this.email = email;
         this.profileUrl = profileUrl;
         this.uid = uid;
-
-
     }
 
     @Override

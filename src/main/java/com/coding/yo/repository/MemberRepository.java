@@ -10,6 +10,4 @@ import java.util.Optional;
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByUid(String uid);
-    //}
-//public interface MemberRepository extends JpaRepository<Member,String> {
 }
