@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseToken;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,34 +26,35 @@ public class MemberController {
 
     //회원가입
     @PostMapping("")
-//    public MemberInfo register(@RequestHeader("Authorization") String authorization, @RequestBody RegisterInfo registerInfo) {
-    public MemberInfo register(@RequestHeader("Authorization") String authorization) {
-//
-            //Token 가져온다
+    public ResponseEntity<MemberInfo> register(@RequestHeader("Authorization") String authorization) {
+
+        //Token 가져온다
         FirebaseToken decodedToken;
         try {
             String token = RequestUtil.getAuthorizationToken(authorization);
             decodedToken = firebaseAuth.verifyIdToken(token);
 
-        } catch (IllegalArgumentException |FirebaseAuthException e) {
+        } catch (IllegalArgumentException | FirebaseAuthException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
                     "{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
         }
-        log.info("decoded: {} {} {} {}", decodedToken.getUid(), decodedToken.getEmail(),decodedToken.getName(),decodedToken.getPicture());
+        log.info("controller 회원가입 decoded: {} {} {} {}", decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getName(), decodedToken.getPicture());
         //사용자를 등록한다.
-        Member registeredUser = userDetailsServiceImpl.register(decodedToken.getUid(), decodedToken.getEmail(),decodedToken.getName(),decodedToken.getPicture());
-        return new MemberInfo(registeredUser);
-//        return null;
-        }
+        Member registeredUser = userDetailsServiceImpl.register(decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getName(), decodedToken.getPicture());
+        log.info("userDetailsServiceImpl 등록");
+        return new ResponseEntity<MemberInfo>(new MemberInfo(registeredUser), HttpStatus.CREATED);
+//        return new MemberInfo;
+    }
 
-    //로그인
+    /**
+     * 로그인
+     * ResponseEntity 사용 시 상태코드까지 받아올 수 있음.
+     */
     @GetMapping("/me")
-    public MemberInfo login(Authentication authentication) {
+    public ResponseEntity<MemberInfo> login(Authentication authentication) {
         Member member = ((Member) authentication.getPrincipal());
-//        UserDetailsImpl userDetailsImpl = ((UserDetailsImpl) authentication.getPrincipal());
-//        return new MemberInfo(userDetailsImpl);
         log.info("member - 로그인 성공" + member.getUsername());
-        return null;
+        return ResponseEntity.ok(new MemberInfo(member));
     }
-    }
+}
 
