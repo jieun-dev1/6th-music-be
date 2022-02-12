@@ -1,5 +1,6 @@
 package com.coding.yo.security.filter;
 
+import com.coding.yo.repository.MemberRepository;
 import com.coding.yo.util.RequestUtil;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
@@ -11,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -37,7 +39,6 @@ public class JwtFilter extends OncePerRequestFilter {
             log.info("로그인 토큰" + token);
             decodedToken = firebaseAuth.verifyIdToken(token);
         } catch (FirebaseAuthException | IllegalArgumentException e) {
-//            setUnauthorizedResponse(response, "INVALID TOKEN");
             //ErrorMessage 응답 전송
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
             response.setContentType("application/json");
@@ -48,12 +49,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
         //USER를 가져와 SecurityContext에 저장
         //getContext.setAuthentication(authentication)에서 user 를 넣어주게 됨.
+
         try {
-            log.info("decoded: {} {} {}", decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getPicture());
+            log.info("jwt filter decoded: {} {} {}", decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getPicture());
             UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-        } catch (NoSuchElementException e) {
+        } catch (UsernameNotFoundException e) {
 
             //ErrorMessage 응답 전송
             response.setStatus(HttpStatus.SC_UNAUTHORIZED);
@@ -64,8 +66,4 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
-
-
-    //Get the token from the request
-
 }

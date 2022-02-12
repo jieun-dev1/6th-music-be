@@ -21,25 +21,28 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true, jsr250Enabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final FirebaseAuth firebaseAuth;
 
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .anyRequest().authenticated().and()
-                .addFilterBefore(new JwtFilter(userDetailsServiceImpl, firebaseAuth),
-                        UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()
-                .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+        http.csrf().disable() //CSRF 보호기능 disable
+                .authorizeRequests() //요청에 대한 권한 지정
+                .anyRequest().authenticated() //모든 요청이 인증되어야 한다.
+                .and()
+                .addFilterBefore(new JwtFilter(userDetailsServiceImpl, firebaseAuth), UsernamePasswordAuthenticationFilter.class);
     }
+
+    ;
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(HttpMethod.POST,"/users")
+        web.ignoring().antMatchers(HttpMethod.POST, "/users")
                 .antMatchers("/")
                 .antMatchers("/resources/**");
+//                .antMatchers("/users/**");
 
     }
 
