@@ -20,8 +20,8 @@ public class RequestUtil {
     }
 
     //Httprequest에서 Auhorization이라는 Header를 찾아서 Bearer 이후의 토큰을 찾는 메서드.위의 메서드가 호출되고, 최종적으로 token이 리턴됨
-    public static String getAuthorizationToken(HttpServletRequest request) {
-        return getAuthorizationToken(request.getHeader("Authorization"));
-    }
+//    public static String getAuthorizationToken(HttpServletRequest request) {
+//        return getAuthorizationToken(request.getHeader("Authorization"));
+//    }
     }
 

@@ -47,9 +47,6 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        //USER를 가져와 SecurityContext에 저장
-        //getContext.setAuthentication(authentication)에서 user 를 넣어주게 됨.
-
         try {
             log.info("jwt filter decoded: {} {} {}", decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getPicture());
             UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid());

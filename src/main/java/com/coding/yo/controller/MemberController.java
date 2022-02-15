@@ -1,7 +1,6 @@
 package com.coding.yo.controller;
 
 import com.coding.yo.entity.Member;
-import com.coding.yo.security.message.request.RegisterInfo;
 import com.coding.yo.security.message.response.MemberInfo;
 import com.coding.yo.security.service.UserDetailsServiceImpl;
 import com.coding.yo.util.RequestUtil;
@@ -24,6 +23,12 @@ public class MemberController {
     private final FirebaseAuth firebaseAuth;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
+    /**
+     * 이미 예외처리를 했기 때문에 ResponseEntity로 안가져와도 무관함 - 추후 수정
+     * @param authorization
+     * @return
+     */
+
     //회원가입
     @PostMapping("")
     public ResponseEntity<MemberInfo> register(@RequestHeader("Authorization") String authorization) {
@@ -42,14 +47,11 @@ public class MemberController {
         //사용자를 등록한다.
         Member registeredUser = userDetailsServiceImpl.register(decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getName(), decodedToken.getPicture());
         log.info("userDetailsServiceImpl 등록");
-        return new ResponseEntity<MemberInfo>(new MemberInfo(registeredUser), HttpStatus.CREATED);
+        return new ResponseEntity<>(new MemberInfo(registeredUser), HttpStatus.CREATED);
 //        return new MemberInfo;
     }
 
-    /**
-     * 로그인
-     * ResponseEntity 사용 시 상태코드까지 받아올 수 있음.
-     */
+    //로그인
     @GetMapping("/me")
     public ResponseEntity<MemberInfo> login(Authentication authentication) {
         Member member = ((Member) authentication.getPrincipal());
