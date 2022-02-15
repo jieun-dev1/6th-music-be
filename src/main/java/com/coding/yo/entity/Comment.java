@@ -52,4 +52,4 @@ public class Comment {
 
     @Embedded
     private TimeColumns timeColumns;
-}
+

@@ -26,4 +26,4 @@ public class PostReport {
 
     @Embedded
     private TimeColumns timeColumns;
-}
+
