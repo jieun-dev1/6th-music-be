@@ -4,7 +4,8 @@ spring:
 #    GIT 용
     username: ${{secrets.POSTGRES_USERNAME}}
     password: ${{secrets.POSTGRES_PASSWORD}}
-
+    hikari:
+      maximum-pool-size:4
   jpa:
     hibernate:
       ddl-auto: update
