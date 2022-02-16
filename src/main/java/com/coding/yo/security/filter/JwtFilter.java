@@ -54,11 +54,21 @@ public class JwtFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (UsernameNotFoundException e) {
 
-            //ErrorMessage 응답 전송
-            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+            /**
+             *ErrorMessage 응답 전송
+             *에러를 401에서 404로 변경
+             *401: UNAuthorized (클라이언트가 해당 리소스에 대한 인증 필요)
+             *404: 요청 리소스가 서버에 없거나, 클라이언트가 궈한 부족한 리소스 접근 시.
+             */
+
+            response.setStatus(HttpStatus.SC_NOT_FOUND);
             response.setContentType("application/json");
-            //write: writes a string
             response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
+
+//            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
+//            response.setContentType("application/json");
+            //write: writes a string
+//            response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
             return;
         }
         filterChain.doFilter(request, response);
