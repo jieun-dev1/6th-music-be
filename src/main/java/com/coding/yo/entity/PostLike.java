@@ -27,4 +27,4 @@ public class PostLike {
 
     @Embedded
     private TimeColumns timeColumns;
-}
+

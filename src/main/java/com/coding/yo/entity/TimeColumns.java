@@ -11,4 +11,4 @@ public class TimeColumns {
 
     @Column(name = "updated_at", columnDefinition = "timestamp with time zone default current_timestamp")
     private OffsetDateTime updatedAt;
-}
+

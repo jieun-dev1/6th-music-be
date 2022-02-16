@@ -28,4 +28,3 @@ public class CommentLike {
 
     @Embedded
     private TimeColumns timeColumns;
-}
