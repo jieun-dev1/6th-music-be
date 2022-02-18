@@ -1,7 +1,6 @@
 #github actions
 name: deploy
 
-
 #On: yaml 실행 조건  - main 브랜치에 push 가 동작되면 실행된다 (pull_request merge 시 추가됨)
 on:
   push:
@@ -16,9 +15,9 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '11'
-#      - uses: actions/setup-node@v2
-#        with:
-#          node-version: '14'
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
       - name: checkout backend
         uses: actions/checkout@v2
       - name: deploy to heroku
