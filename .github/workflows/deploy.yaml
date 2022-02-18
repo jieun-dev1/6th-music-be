@@ -21,15 +21,10 @@ jobs:
           node-version: '14'
       - name: checkout backend
         uses: actions/checkout@v2
-      - name: checkout frontend
-        uses: actions/checkout@v2
-        with:
-          repository: Couch-Coders/6th-music-fe
-          path: ./
       - name: deploy to heroku
         uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: "git-actions-codingyo"
+          heroku_app_name: "workplaylist"
           heroku_email: "jkdev1324@gmail.com"
 
