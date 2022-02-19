@@ -1,5 +1,8 @@
 package com.coding.yo.entity;
 
+import com.coding.yo.entity.audit.AuditListener;
+import com.coding.yo.entity.audit.Auditable;
+import com.coding.yo.entity.audit.TimeColumns;
 import com.coding.yo.util.Role;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -17,10 +20,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "member")
-public class Member implements UserDetails {
-
-    private String provider;
-    private String providerId;
+@EntityListeners(AuditListener.class)
+public class Member implements Auditable, UserDetails {
 
     @Id
     @Column(name = "member_id")
@@ -47,6 +48,9 @@ public class Member implements UserDetails {
     private List<Post> post;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<PostLike> postLikes;
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Comment> comments;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
@@ -60,9 +64,7 @@ public class Member implements UserDetails {
 
 
     @Builder
-    public Member(String provider, String providerId, String username, String email, String profileUrl, String uid) {
-        this.provider = provider;
-        this.providerId = providerId;
+    public Member(String username, String email, String profileUrl, String uid) {
         this.username = username;
         this.email = email;
         this.profileUrl = profileUrl;
@@ -97,5 +99,10 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
+    }
+
+    @Override
+    public void setTimeColumns(TimeColumns timeColumns) {
+        this.timeColumns = timeColumns;
     }
 }

@@ -25,7 +25,7 @@ public class FirebaseConfig {
     @Bean
     public FirebaseAuth firebaseAuth() throws IOException {
 
-        ClassPathResource key = new ClassPathResource("codingyo-firebase-adminsdk.json");
+        ClassPathResource key = new ClassPathResource("playlist-b8b40-firebase-adminsdk.json");
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(key.getInputStream()))

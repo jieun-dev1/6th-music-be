@@ -1,5 +1,8 @@
 package com.coding.yo.entity;
 
+import com.coding.yo.entity.audit.AuditListener;
+import com.coding.yo.entity.audit.Auditable;
+import com.coding.yo.entity.audit.TimeColumns;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +15,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "comment")
-public class Comment {
+@EntityListeners(AuditListener.class)
+public class Comment implements Auditable {
 
     @Id
     @Column(name = "comment_id")
@@ -53,3 +57,8 @@ public class Comment {
     @Embedded
     private TimeColumns timeColumns;
 
+    @Override
+    public void setTimeColumns(TimeColumns timeColumns) {
+        this.timeColumns = timeColumns;
+    }
+}

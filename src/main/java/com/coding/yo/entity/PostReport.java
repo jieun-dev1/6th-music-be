@@ -1,5 +1,8 @@
 package com.coding.yo.entity;
 
+import com.coding.yo.entity.audit.AuditListener;
+import com.coding.yo.entity.audit.Auditable;
+import com.coding.yo.entity.audit.TimeColumns;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +13,9 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "post_report")
-public class PostReport {
+@EntityListeners(AuditListener.class)
+
+public class PostReport implements Auditable {
     @Id
     @Column(name = "post_report_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,3 +32,13 @@ public class PostReport {
     @Embedded
     private TimeColumns timeColumns;
 
+    public PostReport(Post post, Member member) {
+        this.post = post;
+        this.member = member;
+    }
+
+    @Override
+    public void setTimeColumns(TimeColumns timeColumns) {
+
+    }
+}

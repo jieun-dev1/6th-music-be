@@ -21,5 +21,13 @@ public class Tag {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    @Column(name = "tag_name", nullable = false, length = 10)
+    @Column(name = "tag", nullable = false, length = 10)
     private String tagName;
+
+    public Tag(Post post, String tagName) {
+        this.post = post;
+        this.tagName = tagName;
+    }
+
+
+}

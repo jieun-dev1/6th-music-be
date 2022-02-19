@@ -1,6 +1,9 @@
 package com.coding.yo.entity;
 
 
+import com.coding.yo.entity.audit.AuditListener;
+import com.coding.yo.entity.audit.Auditable;
+import com.coding.yo.entity.audit.TimeColumns;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +14,9 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "comment_like")
-public class CommentLike {
+@EntityListeners(AuditListener.class)
+
+public class CommentLike implements Auditable {
 
     @Id
     @Column(name = "comment_like_id")
@@ -28,3 +33,9 @@ public class CommentLike {
 
     @Embedded
     private TimeColumns timeColumns;
+
+    @Override
+    public void setTimeColumns(TimeColumns timeColumns) {
+        this.timeColumns = timeColumns;
+    }
+}
