@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 
 @Configuration
@@ -25,7 +24,7 @@ public class FirebaseConfig {
     @Bean
     public FirebaseAuth firebaseAuth() throws IOException {
 
-        ClassPathResource key = new ClassPathResource("playlist-b8b40-firebase-adminsdk.json");
+        ClassPathResource key = new ClassPathResource("serviceAccountKey.json");
 
         FirebaseOptions options = FirebaseOptions.builder()
                 .setCredentials(GoogleCredentials.fromStream(key.getInputStream()))
