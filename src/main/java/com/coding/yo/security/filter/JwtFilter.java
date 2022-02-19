@@ -65,10 +65,6 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setContentType("application/json");
             response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
 
-//            response.setStatus(HttpStatus.SC_UNAUTHORIZED);
-//            response.setContentType("application/json");
-            //write: writes a string
-//            response.getWriter().write("{\"code\":\"USER_NOT_FOUND\"}");
             return;
         }
         filterChain.doFilter(request, response);
