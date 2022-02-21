@@ -23,6 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
+/**
+ * header에 Authorization: Bearer {FirebaseIdToken} 형태로 온다고 가정.
+ */
 @Slf4j
 @RequiredArgsConstructor
 public class LocalJwtFilter extends OncePerRequestFilter {
