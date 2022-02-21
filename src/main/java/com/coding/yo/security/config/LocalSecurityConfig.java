@@ -1,6 +1,5 @@
 package com.coding.yo.security.config;
 
-import com.coding.yo.security.filter.JwtFilter;
 import com.coding.yo.security.filter.LocalJwtFilter;
 import com.coding.yo.security.service.UserDetailsServiceImpl;
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,12 +45,18 @@ public class LocalSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
     }
 
-    ;
+    /**
+     * 회원 가입 시, filter 를 거치지 않는다. UserDetails user = userDetailsService.loadUserByUsername(decodedToken.getUid())여기서 exception 이 터져서 controller 까지 넘어가지 못함.
+     * (1)  get 로그인 요청을 보내서 200이면 / 로 라우팅 (2) 해당 에러일 경우 (404)이면 post 요청으로 routing
+     * @param web
+     * @throws Exception
+     */
 
     @Override
     public void configure(WebSecurity web) throws Exception {
         //인증 예외 url 설정 (ex. 유저가 없을 경우 회원가입 POST/users 요청은 필터를 거치지 않는다)
         web.ignoring().antMatchers(HttpMethod.POST, "/users")
+                .antMatchers(HttpMethod.POST, "/users/local")
                 .antMatchers("/")
                 .antMatchers("/resources/**");
 
