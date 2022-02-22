@@ -1,8 +1,8 @@
 package com.coding.yo.controller;
 
 import com.coding.yo.entity.Member;
-import com.coding.yo.security.message.response.LocalMemberSignupRequestDto;
-import com.coding.yo.security.message.response.MemberSignupRequestDto;
+import com.coding.yo.security.message.request.LocalMemberSignupRequestDto;
+import com.coding.yo.security.message.request.MemberSignupRequestDto;
 import com.coding.yo.security.service.UserDetailsServiceImpl;
 import com.coding.yo.util.RequestUtil;
 import com.google.firebase.auth.FirebaseAuth;
