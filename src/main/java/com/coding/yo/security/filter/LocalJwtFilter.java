@@ -36,7 +36,7 @@ public class LocalJwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         log.info("로그인 시작");
-        String token;
+        String token; //ex)Bearer 123 Key:Authorization
         try {
             token = RequestUtil.getAuthorizationToken(request.getHeader("Authorization"));
             log.info("로그인 토큰" + token);
@@ -50,7 +50,7 @@ public class LocalJwtFilter extends OncePerRequestFilter {
         }
 
         try {
-            UserDetails user = userDetailsService.loadUserByUsername(token); //header-uid 로 user 찾아오기..
+            UserDetails user = userDetailsService.loadUserByUsername(token); //decodedToken.getUid가 들어가는 로직
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (UsernameNotFoundException e) {
