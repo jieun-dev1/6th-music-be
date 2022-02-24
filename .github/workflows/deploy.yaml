@@ -4,7 +4,7 @@ name: deploy
 #On: yaml 실행 조건  - main 브랜치에 push 가 동작되면 실행된다 (pull_request merge 시 추가됨)
 on:
   push:
-    branches: [main]
+    branches: []
 
 
 jobs:
