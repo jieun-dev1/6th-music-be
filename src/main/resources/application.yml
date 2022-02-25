@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/playlist
+    url: ${{secrets.POSTGRES_URI}}
     username: ${{secrets.POSTGRES_USERNAME}}
     password: ${{secrets.POSTGRES_PASSWORD}}
     hikari:
