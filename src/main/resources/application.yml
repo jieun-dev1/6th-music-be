@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: ${POSTGRES_DATABASE}
+    url: ${DATABASE_URL}
     username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
     hikari:
