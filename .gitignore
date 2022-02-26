@@ -38,3 +38,6 @@ out/
 
 ### json key file ###
 .json
+
+### git ###
+application-local.yml
