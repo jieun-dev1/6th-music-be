@@ -1,9 +1,11 @@
 package com.coding.yo.entity;
 
+import antlr.collections.impl.BitSet;
 import com.coding.yo.entity.audit.AuditListener;
 import com.coding.yo.entity.audit.Auditable;
 import com.coding.yo.entity.audit.TimeColumns;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -56,6 +58,14 @@ public class Comment implements Auditable {
 
     @Embedded
     private TimeColumns timeColumns;
+
+    @Builder
+    public Comment (Post post, String content, Member member){
+        this.post = post;
+        this.content = content;
+        this.member = member;
+    }
+
 
     @Override
     public void setTimeColumns(TimeColumns timeColumns) {
