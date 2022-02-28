@@ -16,5 +16,5 @@ spring:
         use_sql_comments: true
   config:
     activate:
-      on-profile: local
+      on-profile: prod
 
