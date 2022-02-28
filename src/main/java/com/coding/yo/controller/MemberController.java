@@ -21,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/users")
 public class MemberController {
-    private final FirebaseAuth firebaseAuth;
+//    private final FirebaseAuth firebaseAuth;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     /**
@@ -43,26 +43,26 @@ public class MemberController {
     }
 
     //회원가입
-    @PostMapping("")
-    public ResponseEntity<MemberSignupRequestDto> register(@RequestHeader("Authorization") String authorization) {
-
-        //Token 가져온다
-        FirebaseToken decodedToken;
-        try {
-            String token = RequestUtil.getAuthorizationToken(authorization);
-            decodedToken = firebaseAuth.verifyIdToken(token);
-
-        } catch (IllegalArgumentException | FirebaseAuthException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
-                    "{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
-        }
-        log.info("controller 회원가입 decoded: {} {} {} {}", decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getName(), decodedToken.getPicture());
-        //사용자를 등록한다.
-        Member registeredUser = userDetailsServiceImpl.register(decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getName(), decodedToken.getPicture());
-        log.info("userDetailsServiceImpl 등록");
-        return new ResponseEntity<>(new MemberSignupRequestDto(registeredUser), HttpStatus.CREATED);
-//        return new MemberInfo;
-    }
+//    @PostMapping("")
+//    public ResponseEntity<MemberSignupRequestDto> register(@RequestHeader("Authorization") String authorization) {
+//
+//        //Token 가져온다
+//        FirebaseToken decodedToken;
+//        try {
+//            String token = RequestUtil.getAuthorizationToken(authorization);
+//            decodedToken = firebaseAuth.verifyIdToken(token);
+//
+//        } catch (IllegalArgumentException | FirebaseAuthException e) {
+//            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+//                    "{\"code\":\"INVALID_TOKEN\", \"message\":\"" + e.getMessage() + "\"}");
+//        }
+//        log.info("controller 회원가입 decoded: {} {} {} {}", decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getName(), decodedToken.getPicture());
+//        //사용자를 등록한다.
+//        Member registeredUser = userDetailsServiceImpl.register(decodedToken.getUid(), decodedToken.getEmail(), decodedToken.getName(), decodedToken.getPicture());
+//        log.info("userDetailsServiceImpl 등록");
+//        return new ResponseEntity<>(new MemberSignupRequestDto(registeredUser), HttpStatus.CREATED);
+////        return new MemberInfo;
+//    }
 
     //로그인
     @GetMapping("/me")
