@@ -33,8 +33,8 @@ public class Post implements Auditable {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;
 
-    @Column(nullable = false, length = 50)
-    private String creator;
+//    @Column(nullable = false, length = 50)
+//    private String creator;
 
     @Column(name = "like_count")
     @ColumnDefault("0")
@@ -76,10 +76,9 @@ public class Post implements Auditable {
     private List<Comment> comments;
 
     @Builder
-    public Post(String title, String content, String creator, String videoId, Member member){
+    public Post(String title, String content, String videoId, Member member){
         this.title = title;
         this.content = content;
-        this.creator = creator;
         this.videoId = videoId;
         this.member = member;
     }
