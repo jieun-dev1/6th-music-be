@@ -1,4 +1,4 @@
-package com.coding.yo.security.message.request;
+package com.coding.yo.message.request;
 
 
 import com.coding.yo.entity.Member;

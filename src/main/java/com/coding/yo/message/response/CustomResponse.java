@@ -1,4 +1,4 @@
-package com.coding.yo.security.message.response;
+package com.coding.yo.message.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

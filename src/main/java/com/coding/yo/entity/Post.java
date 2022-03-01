@@ -2,7 +2,7 @@ package com.coding.yo.entity;
 
 import com.coding.yo.entity.audit.AuditListener;
 import com.coding.yo.entity.audit.Auditable;
-import com.coding.yo.security.message.request.PostDto;
+import com.coding.yo.message.request.PostDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import com.coding.yo.entity.audit.TimeColumns;
@@ -10,7 +10,6 @@ import com.coding.yo.entity.audit.TimeColumns;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
