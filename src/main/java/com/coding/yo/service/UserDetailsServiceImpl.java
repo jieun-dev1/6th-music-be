@@ -1,18 +1,14 @@
-package com.coding.yo.security.service;
+package com.coding.yo.service;
 
 import com.coding.yo.entity.Member;
 import com.coding.yo.repository.MemberRepository;
-import com.google.firebase.auth.FirebaseAuth;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
+import javax.transaction.Transactional;
 
 @Slf4j
 @Service
