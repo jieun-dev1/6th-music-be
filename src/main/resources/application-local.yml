@@ -1,9 +1,11 @@
+## 로컬 테스트 + 로컬 DB
+#
 #spring:
 #  datasource:
 #    url: jdbc:postgresql://localhost:5432/playlist
 ##    GIT 용
-#    username: ${{secrets.POSTGRES_USERNAME}}
-#    password: ${{secrets.POSTGRES_PASSWORD}}
+#    username:
+#    password:
 #    hikari:
 #      maximum-pool-size:4
 #  jpa:
