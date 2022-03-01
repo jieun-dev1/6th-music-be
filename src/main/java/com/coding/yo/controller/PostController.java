@@ -1,11 +1,11 @@
 package com.coding.yo.controller;
 
 import com.coding.yo.entity.Member;
+import com.coding.yo.message.request.CommentRequestDto;
 import com.coding.yo.repository.PostRepository;
-import com.coding.yo.security.message.request.PostDto;
-import com.coding.yo.security.message.response.PostResponseDto;
-import com.coding.yo.security.service.PostService;
-import com.coding.yo.security.service.PostServiceLocalImpl;
+import com.coding.yo.message.request.PostDto;
+import com.coding.yo.message.response.PostResponseDto;
+import com.coding.yo.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -49,13 +49,6 @@ public class PostController {
         return "글 작성이 완료 되었습니다";
     }
 
-
-//    @PostMapping("")
-//    public String createPost(PostDto postDto, @AuthenticationPrincipal Member member) {
-//        postService.toCreatePost(postDto, member);
-//        return "글 작성이 완료 되었습니다";
-//    }
-
     @Transactional
     @PatchMapping("/{postId}")
     public String editPost(@PathVariable Long postId, PostDto postDto, @AuthenticationPrincipal Member member) {
@@ -68,6 +61,14 @@ public class PostController {
         postService.toDeletePost(postDto, member);
         return "글 삭제가 완료 되었습니다";
     }
+
+    @PostMapping("/{id}/comments")
+    public String createComment(@PathVariable Long id, @RequestBody CommentRequestDto commentRequestDto, Authentication authentication) {
+        Member member = ((Member) authentication.getPrincipal());
+        postService.toCreateComment(commentRequestDto, member, id);
+        return "댓글 작성이 완료 되었습니다";
+    }
+
 
 
 
