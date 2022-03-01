@@ -60,10 +60,10 @@ public class Comment implements Auditable {
     private TimeColumns timeColumns;
 
     @Builder
-    public Comment (Post post, String content, Member member){
-        this.post = post;
+    public Comment (String content, Member member, Post post){
         this.content = content;
         this.member = member;
+        this.post = post;
     }
 
 
