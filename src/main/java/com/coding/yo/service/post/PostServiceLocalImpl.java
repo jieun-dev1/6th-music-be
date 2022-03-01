@@ -1,13 +1,17 @@
-package com.coding.yo.security.service.post;
+package com.coding.yo.service.post;
 
+import com.coding.yo.entity.Comment;
 import com.coding.yo.entity.Member;
 import com.coding.yo.entity.Post;
 import com.coding.yo.entity.Tag;
+import com.coding.yo.message.request.CommentRequestDto;
+import com.coding.yo.message.response.CommentResponseDto;
+import com.coding.yo.repository.CommentRepository;
 import com.coding.yo.repository.MemberRepository;
 import com.coding.yo.repository.PostRepository;
 import com.coding.yo.repository.TagRepository;
-import com.coding.yo.security.message.request.PostDto;
-import com.coding.yo.security.message.response.PostResponseDto;
+import com.coding.yo.message.request.PostDto;
+import com.coding.yo.message.response.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
@@ -16,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class PostServiceLocalImpl implements PostService {
     private final MemberRepository memberRepository;
     private final PostRepository postRepository;
     private final TagRepository tagRepository;
+    private final CommentRepository commentRepository;
 
 
     /**
@@ -70,4 +76,17 @@ public class PostServiceLocalImpl implements PostService {
     public void toDeletePost(PostDto postDto, Member member) {
 
     }
+
+    @Override
+    public void toCreateComment(CommentRequestDto commentRequestDto, Member member, Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new NullPointerException("can't find " + id));
+        Comment comment = Comment.builder()
+                .member(member)
+                .content(commentRequestDto.getContent())
+                .post(post)
+                .build();
+
+        commentRepository.save(comment);
+    }
+
 }
