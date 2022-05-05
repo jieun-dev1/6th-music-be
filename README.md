@@ -19,4 +19,5 @@
 ### 📌 기획 및 설계  
 
 API 명세서: https://www.notion.so/API-285cdb1a9c32453caa7b590c11176f96
+
 DB 설계: https://www.erdcloud.com/d/vn2Ye3JfLZz3GnCtd
